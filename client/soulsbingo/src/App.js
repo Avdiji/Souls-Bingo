@@ -1,16 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import Layout from "./components/layout/Layout";
-import LandingPage from "./pages/landingPage/LandingPage";
+import Interpage from "./Interpage";
+import io from "socket.io-client";
 
 export default function App() {
-  return (
-    <Layout>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-        </Routes>
-      </Router>
-    </Layout>
-  );
+  const socket = io.connect("http://localhost:3001");
+
+  return <Interpage socket={socket}/>;
 }
