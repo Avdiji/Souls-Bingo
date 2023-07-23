@@ -1,13 +1,8 @@
 import { useEffect } from "react";
+import { sendMessage } from "../../utils/clientSocketUtils";
 
 export default function BingoPage(props) {
   const roomID = props.roomID;
-  const message = "FITOREN";
-
-  const sendMessage = () => {
-    console.log(roomID);
-    props.socket.emit("send_message", { message, roomID });
-  };
 
   useEffect(() =>{
     props.socket.on("receive_message", (data) =>{
@@ -18,7 +13,7 @@ export default function BingoPage(props) {
   return (
     <div>
       <h1>Bingo Page</h1>
-      <button onClick={sendMessage}>Send MEssage to Room</button>
+      <button onClick={() => sendMessage(props.socket, roomID)}>Send Message to Room</button>
     </div>
   );
 }

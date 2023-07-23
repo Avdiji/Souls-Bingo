@@ -1,8 +1,8 @@
 import Interpage from "./Interpage";
-import io from "socket.io-client";
+import { initSocket } from "./utils/socketUtils";
 
 export default function App() {
-  const socket = io.connect("http://localhost:3001");
+  const socket = initSocket();
 
   return <Interpage socket={socket}/>;
 }

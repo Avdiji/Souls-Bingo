@@ -1,35 +1,37 @@
-import { Link } from "react-router-dom";
 import classes from "./LandingPage.module.css";
 import { useState } from "react";
+import LandingPageHeader from "./LandingPageHeader";
+import StartButton from "./StartButton";
+import LandingPageInput from "./LandingPageInput";
+import { joinRoom } from "../../utils/clientSocketUtils";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage(props) {
   const [roomIdInput, setRoomIdInput] = useState("");
+  const [nicknameInput, setNicknameInput] = useState("");
+  const nav = useNavigate();
 
-  const joinRoom = () => {
-    if (roomIdInput !== "") {
-      props.setRoomID(roomIdInput);
-      props.socket.emit("join_room", roomIdInput);
+  const onStartClick = () => {
+    if (roomIdInput !== "" && nicknameInput !== "") {
+      joinRoom(props.socket, roomIdInput, props.setRoomID, nicknameInput);
+      nav("/bingo");
     }
   };
 
   return (
     <div className={classes.landingPage}>
-      <div className={classes.imgContainer}>
-        <h2>SOULS BINGO</h2>
-        <img src="images\ds1.png" alt="" />
-      </div>
+      <LandingPageHeader />
+      <LandingPageInput
+        placeholder="Nickname"
+        onChange={(e) => setNicknameInput(e.target.value)}
+      />
 
-      <div className={classes.inputContainer}>
-        <div>
-          <input
-            placeholder="Room-ID"
-            onChange={(e) => setRoomIdInput(e.target.value)}
-          />
-          <Link to="/bingo">
-            <button onClick={joinRoom}>Join Room</button>
-          </Link>
-        </div>
-      </div>
+      <LandingPageInput
+        placeholder="Room-ID"
+        onChange={(e) => setRoomIdInput(e.target.value)}
+      />
+
+      <StartButton onClick={onStartClick} />
     </div>
   );
 }

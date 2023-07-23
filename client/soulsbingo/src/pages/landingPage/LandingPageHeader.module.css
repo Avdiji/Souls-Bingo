@@ -1,0 +1,37 @@
+.landingPageHeader {
+  text-align: center;
+  position: relative;
+  margin-top: 5vh;
+}
+
+.landingPageHeader img {
+    width: 50vw;
+}
+
+.landingPageHeader h2 {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+@media only screen and (max-width: 780px) {
+    .landingPageHeader h2{
+        font-size: large;
+    }
+
+    .landingPageHeader img {
+        width: 75vw;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    .landingPageHeader h2{
+        font-size: medium;
+    }
+
+    .landingPageHeader img {
+        width: 90vw;
+    }
+}
