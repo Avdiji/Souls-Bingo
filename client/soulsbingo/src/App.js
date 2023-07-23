@@ -1,5 +1,5 @@
 import Interpage from "./Interpage";
-import { initSocket } from "./utils/socketUtils";
+import { initSocket } from "./utils/clientSocketUtils";
 
 export default function App() {
   const socket = initSocket();
