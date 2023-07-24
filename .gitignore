@@ -1,0 +1,5 @@
+# Ignore soulsbingo_db directory
+/soulsbingo_db/
+
+# Ignore .env.db file
+.env.db

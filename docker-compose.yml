@@ -1,5 +1,17 @@
 version: "3.8"
 services:
+  soulsbingo_db:
+    image: postgres
+    restart: always
+    hostname: soulsbingo_db
+    env_file: .env.db
+    ports:
+      - "5432:5432"
+    networks:
+      - shared-network
+    volumes:
+      - ./soulsbingo_db:/var/lib/postgresql/data
+
   backend:
     container_name: backend_container
     image: backend_image-v1.0.0
@@ -11,6 +23,8 @@ services:
       - "3001:3001"
     networks:
       - shared-network
+    depends_on:
+      - soulsbingo_db
 
   frontend:
     container_name: frontend_container
