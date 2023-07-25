@@ -4,6 +4,7 @@
   justify-content: center;
   flex-wrap: wrap;
   width: 40vw;
+  margin-top: 1rem;
 }
 
 @media only screen and (max-width: 780px) {

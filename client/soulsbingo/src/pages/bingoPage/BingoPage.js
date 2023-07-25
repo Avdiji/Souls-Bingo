@@ -1,8 +1,8 @@
 import classes from "./BingoPage.module.css";
-import { useEffect, useState } from "react";
-import { sendMessage } from "../../utils/clientSocketUtils";
+import {  useState } from "react";
 import Header from "../../components/header/Header";
 import GameButtons from "./bingoPageComponents/gameButtons/GameButtons";
+import BingoBoard from "./bingoPageComponents/bingoboard/BingoBoard";
 
 export default function BingoPage(props) {
   const [activeGameID, setActiveGameID] = useState(1);
@@ -21,19 +21,25 @@ export default function BingoPage(props) {
     }
   };
 
-  useEffect(() => {
-    props.socket.on("receive_message", (data) => {
-      alert(data.message);
-    });
-  }, [props.socket]);
 
   return (
     <div className={classes.bingoPage}>
       <Header src={getHeaderSrc()}/>
       <GameButtons activeGameID={activeGameID} setActiveGameID={setActiveGameID}/>
-      <button onClick={() => sendMessage(props.socket, roomID)}>
-        Send Message to Room
-      </button>
+      <BingoBoard/>
     </div>
   );
 }
+
+
+
+// useEffect(() => {
+//   props.socket.on("receive_message", (data) => {
+//     alert(data.message);
+//   });
+// }, [props.socket]);
+
+
+// <button onClick={() => sendMessage(props.socket, roomID)}>
+// Send Message to Room
+// </button>
