@@ -3,6 +3,9 @@ services:
   soulsbingo_db:
     image: postgres
     restart: always
+    build:
+      context: ./database
+      dockerfile: Dockerfile
     hostname: soulsbingo_db
     env_file: .env.db
     ports:
@@ -10,7 +13,7 @@ services:
     networks:
       - shared-network
     volumes:
-      - ./soulsbingo_db:/var/lib/postgresql/data
+      - ./database/soulsbingo_db:/var/lib/postgresql/data
 
   backend:
     container_name: backend_container

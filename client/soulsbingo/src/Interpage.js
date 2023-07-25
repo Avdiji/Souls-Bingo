@@ -6,14 +6,14 @@ import BingoPage from "./pages/bingoPage/BingoPage";
 
 
 export default function Interpage(props){
-    const [roomID, setRoomID] = useState('');
+    const [roomName, setRoomName] = useState('');
 
     return (
       <Layout>
         <Router>
           <Routes>
-            <Route path="/" element={<LandingPage socket={props.socket} setRoomID={setRoomID}/>} />
-            <Route path="/bingo" element={<BingoPage socket={props.socket} roomID={roomID}/>} />
+            <Route path="/" element={<LandingPage socket={props.socket} setRoomName={setRoomName}/>} />
+            <Route path="/bingo" element={<BingoPage socket={props.socket} roomName={roomName}/>} />
           </Routes>
         </Router>
       </Layout>

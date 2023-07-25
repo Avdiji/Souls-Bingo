@@ -1,27 +1,40 @@
-.bingoCard{
-    display: flex;
+.bingoCard {
+  display: flex;
+  color: white;
+  border: 1px solid black;
 
-    color: white;
-    border:1px solid black;
+  width: 8rem;
+  height: 8rem;
 
-    width: 8rem;
-    height: 8rem;
-
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
+.bingoCard p {
+  margin: 0.5rem;
+}
 
 @media only screen and (max-width: 780px) {
-    .bingoCard{
-        width: 15vw;
-        height: 15vw;
-    }
+  .bingoCard {
+    width: 17vw;
+    height: 17vw;
   }
-  
-  @media only screen and (max-width: 440px) {
-    .bingoCard{
-        width: 18vw;
-        height: 18vw;
-    }
+
+  .bingoCard p {
+    margin: 1vw;
+    font-size: 13px;
   }
+}
+
+@media only screen and (max-width: 440px) {
+  .bingoCard {
+    width: 18vw;
+    height: 18vw;
+  }
+
+  .bingoCard p {
+    margin: 2px;
+    font-size: 11px;
+  }
+}

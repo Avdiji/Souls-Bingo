@@ -6,7 +6,7 @@ import BingoBoard from "./bingoPageComponents/bingoboard/BingoBoard";
 
 export default function BingoPage(props) {
   const [activeGameID, setActiveGameID] = useState(1);
-  const roomID = props.roomID;
+  const roomName = props.roomName;
 
   const getHeaderSrc = () =>{
     switch(activeGameID){
@@ -27,6 +27,7 @@ export default function BingoPage(props) {
       <Header src={getHeaderSrc()}/>
       <GameButtons activeGameID={activeGameID} setActiveGameID={setActiveGameID}/>
       <BingoBoard/>
+      <button>FITORES MINORES</button>
     </div>
   );
 }

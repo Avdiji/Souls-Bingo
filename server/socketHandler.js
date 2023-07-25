@@ -1,40 +1,41 @@
-const { Pool } = require("pg");
-// Create a database connection pool
-const pool = new Pool({
-  user: "soulsbingoClient",
-  host: "soulsbingo_db", // This corresponds to the service name in the docker-compose.yaml
-  database: "soulsBingoDB",
-  password: "soulsBingoDB_PASSWORD",
-  port: 5432,
-});
+function joinRoom(socket, pool) {
+  socket.on("join_room", async (data) => {
+    try {
+      const client = await pool.connect();
+      const checkForRoomName = "SELECT id FROM rooms WHERE roomName = $1";
+      const result = await client.query(checkForRoomName, [data.roomName]);
 
-// function to connect the hosts to their respective rooms
-function handleConnection(socket) {
-    console.log("Host has connected to server: " + socket.id);
-  
-    socket.on("join_room", (data) => {
-      console.log("User " + data.nickname + " Joined Room: " + data.roomID);
-      socket.join(data.roomID);
-    });
-  }
-  
-  // game logic
-  function handleGameLogic(socket) {
-    socket.on("send_message", async (data) => {
-      console.log("Sending Message to Room: " + data.roomID);
-      
-      try {
-        const client = await pool.connect();
-        console.log("Erfolg :)");
-      } catch (err) {
-        console.log("SCHEISEN :(");
-        console.log(err);
+      if (result.rowCount > 0) {
+        console.log("This Room already exists");
+      } else {
+        console.log("This Room need to be created");
       }
-    });
-  }
-  
-  
-  module.exports = {
-    handleConnection,
-    handleGameLogic,
-  };
+    } catch (err) {
+      console.log("Unable to connect to the soulsbingo-database");
+      console.log(err);
+    }
+
+    // // console.log("User " + data.nickname + " Joined Room: " + data.roomID);
+    // socket.join(data.roomID);
+  });
+}
+
+// game logic
+function handleGameLogic(socket, pool) {
+  socket.on("send_message", async (data) => {
+    console.log("Sending Message to Room: " + data.roomID);
+
+    try {
+      const client = await pool.connect();
+      console.log("Erfolg :)");
+    } catch (err) {
+      console.log("SCHEISEN :(");
+      console.log(err);
+    }
+  });
+}
+
+module.exports = {
+  handleConnection: joinRoom,
+  handleGameLogic,
+};

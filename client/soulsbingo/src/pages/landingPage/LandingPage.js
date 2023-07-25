@@ -2,18 +2,18 @@ import classes from "./LandingPage.module.css";
 import { useState } from "react";
 import StartButton from "./StartButton";
 import LandingPageInput from "./LandingPageInput";
-import { joinRoom } from "../../utils/clientSocketUtils";
+import { joinRoom } from "../../clientSocketUtils";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 
 export default function LandingPage(props) {
-  const [roomIdInput, setRoomIdInput] = useState("");
+  const [roomNameInput, setRoomNameInput] = useState("");
   const [nicknameInput, setNicknameInput] = useState("");
   const nav = useNavigate();
 
   const onStartClick = () => {
-    if (roomIdInput !== "" && nicknameInput !== "") {
-      joinRoom(props.socket, roomIdInput, props.setRoomID, nicknameInput);
+    if (roomNameInput !== "" && nicknameInput !== "") {
+      joinRoom(props.socket, roomNameInput, props.setRoomName, nicknameInput);
       nav("/bingo");
     }
   };
@@ -28,7 +28,7 @@ export default function LandingPage(props) {
 
       <LandingPageInput
         placeholder="Room-ID"
-        onChange={(e) => setRoomIdInput(e.target.value)}
+        onChange={(e) => setRoomNameInput(e.target.value)}
       />
 
       <StartButton onClick={onStartClick} />
