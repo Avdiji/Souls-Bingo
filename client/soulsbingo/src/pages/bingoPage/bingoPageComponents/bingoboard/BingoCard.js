@@ -1,5 +1,5 @@
 import classes from "./BingoCard.module.css";
 
-export default function BingoCard(){
-    return <div className={classes.bingoCard}>Bingo Card</div>
+export default function BingoCard(props){
+    return <div className={classes.bingoCard}>{props.challenge}</div>
 }
