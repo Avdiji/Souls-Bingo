@@ -1,0 +1,37 @@
+.header {
+  text-align: center;
+  position: relative;
+  margin-top: 5vh;
+}
+
+.header img {
+  width: 40vw;
+}
+
+.header h2 {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+@media only screen and (max-width: 780px) {
+  .header h2 {
+    font-size: large;
+  }
+
+  .header img {
+    width: 75vw;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .header h2 {
+    font-size: medium;
+  }
+
+  .header img {
+    width: 90vw;
+  }
+}

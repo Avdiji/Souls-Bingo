@@ -1,10 +1,10 @@
 import classes from "./LandingPage.module.css";
 import { useState } from "react";
-import LandingPageHeader from "./LandingPageHeader";
 import StartButton from "./StartButton";
 import LandingPageInput from "./LandingPageInput";
 import { joinRoom } from "../../utils/clientSocketUtils";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/header/Header";
 
 export default function LandingPage(props) {
   const [roomIdInput, setRoomIdInput] = useState("");
@@ -20,7 +20,7 @@ export default function LandingPage(props) {
 
   return (
     <div className={classes.landingPage}>
-      <LandingPageHeader />
+      <Header src="images\ds1.jpg"/>
       <LandingPageInput
         placeholder="Nickname"
         onChange={(e) => setNicknameInput(e.target.value)}

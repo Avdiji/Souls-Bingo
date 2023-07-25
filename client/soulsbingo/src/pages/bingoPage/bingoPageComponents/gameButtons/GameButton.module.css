@@ -1,0 +1,24 @@
+/* Styles for the regular button */
+.gameButton button {
+  color: white;
+  background-color: #252525;
+  margin: 1rem;
+  width: 7.35rem;
+  height: 2.5rem;
+  font-weight: bold;
+  box-shadow: 1px 0px 0px 0px #a3e583 inset;
+  transition: 0.2s ease-in-out;
+}
+
+/* Styles for the active button when not hovered */
+.gameButton button.active {
+  color: #252525;
+  box-shadow: 8rem 0px 0px 0px #a3e583 inset;
+}
+
+/* Styles for the regular button on hover when not active */
+.gameButton button:not(.active):hover {
+  cursor: pointer;
+  color: #252525;
+  box-shadow: 8rem 0px 0px 0px #a3e583 inset;
+}

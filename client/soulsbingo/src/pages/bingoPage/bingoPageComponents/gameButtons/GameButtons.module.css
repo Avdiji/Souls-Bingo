@@ -1,0 +1,19 @@
+.gameButtons {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 40vw;
+}
+
+@media only screen and (max-width: 780px) {
+  .gameButtons {
+    width: 75vw;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .gameButtons {
+    width: 90vw;
+  }
+}
