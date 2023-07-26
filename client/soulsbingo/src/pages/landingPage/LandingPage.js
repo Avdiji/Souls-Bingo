@@ -8,12 +8,12 @@ import Header from "../../components/header/Header";
 
 export default function LandingPage(props) {
   const [roomNameInput, setRoomNameInput] = useState("");
-  const [nicknameInput, setNicknameInput] = useState("");
+  const [usernameInput, setUsernameInput] = useState("");
   const nav = useNavigate();
 
   const onStartClick = () => {
-    if (roomNameInput !== "" && nicknameInput !== "") {
-      joinRoom(props.socket, roomNameInput, props.setRoomName, nicknameInput);
+    if (roomNameInput !== "" && usernameInput !== "") {
+      joinRoom(props.socket, roomNameInput, props.setRoomName, usernameInput);
       nav("/bingo");
     }
   };
@@ -23,7 +23,7 @@ export default function LandingPage(props) {
       <Header src="images\ds1.jpg"/>
       <LandingPageInput
         placeholder="Nickname"
-        onChange={(e) => setNicknameInput(e.target.value)}
+        onChange={(e) => setUsernameInput(e.target.value)}
       />
 
       <LandingPageInput

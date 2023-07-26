@@ -15,19 +15,37 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-// create and run server
-app.use(cors());
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: process.env.SB_ORIGIN, methods: ["GET", "POST"] },
-});
-server.listen(process.env.SERVER_PORT, () => {
-  console.log("Server is Running");
-});
+var client;
+async function retryConnect() {
+  console.log("Trying to connect to soulsbingo database...");
+  try {
+    client = await pool.connect();
+    console.log("Successfully connected to soulsbingo database");
 
+  } catch (err) {
+    console.error("Failed to connect to soulsbingo database");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await retryConnect();
+  }
+}
 
-io.on("connection", (socket) => {
-  console.log("Client has connected to server. Client-ID: " + socket.id);
-  handleConnection(socket, pool);
-  handleGameLogic(socket, pool);
+// connect to database before starting server
+retryConnect().then(() => {
+  // create and run server
+  app.use(cors());
+  const server = http.createServer(app);
+  const io = new Server(server, {
+    cors: { origin: process.env.SB_ORIGIN, methods: ["GET", "POST"] },
+  });
+
+  server.listen(process.env.SERVER_PORT, () => {
+    console.log("Server is Running");
+  });
+
+  io.on("connection", (socket) => {
+    console.log("Client has connected to server. Client-ID: " + socket.id);
+
+    handleConnection(socket, client);
+    handleGameLogic(socket, client);
+  });
 });

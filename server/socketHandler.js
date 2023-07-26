@@ -1,18 +1,12 @@
-function joinRoom(socket, pool) {
-  socket.on("join_room", async (data) => {
-    try {
-      const client = await pool.connect();
-      const checkForRoomName = "SELECT id FROM rooms WHERE roomName = $1";
-      const result = await client.query(checkForRoomName, [data.roomName]);
+const postgresUtils = require("./postgresUtils");
 
-      if (result.rowCount > 0) {
-        console.log("This Room already exists");
-      } else {
-        console.log("This Room need to be created");
-      }
-    } catch (err) {
-      console.log("Unable to connect to the soulsbingo-database");
-      console.log(err);
+function joinRoom(socket, client) {
+  socket.on("join_room", async (data) => {
+
+    if (await postgresUtils.roomExists(client, data.roomName)) {
+      console.log("This Room already exists");
+    } else {
+      await postgresUtils.createNewRoom(client, data.roomName);
     }
 
     // // console.log("User " + data.nickname + " Joined Room: " + data.roomID);
@@ -21,12 +15,11 @@ function joinRoom(socket, pool) {
 }
 
 // game logic
-function handleGameLogic(socket, pool) {
+function handleGameLogic(socket, client) {
   socket.on("send_message", async (data) => {
     console.log("Sending Message to Room: " + data.roomID);
 
     try {
-      const client = await pool.connect();
       console.log("Erfolg :)");
     } catch (err) {
       console.log("SCHEISEN :(");
