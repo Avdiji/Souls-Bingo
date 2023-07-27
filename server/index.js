@@ -3,7 +3,7 @@ const app = require("express")();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { handleConnection, handleGameLogic } = require("./socketHandler");
+const { handleJoinRoom, handleGameLogic } = require("./socketHandler");
 const { Pool } = require("pg");
 
 require("dotenv").config();
@@ -21,7 +21,6 @@ async function retryConnect() {
   try {
     client = await pool.connect();
     console.log("Successfully connected to soulsbingo database");
-
   } catch (err) {
     console.error("Failed to connect to soulsbingo database");
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -45,7 +44,7 @@ retryConnect().then(() => {
   io.on("connection", (socket) => {
     console.log("Client has connected to server. Client-ID: " + socket.id);
 
-    handleConnection(socket, client);
+    handleJoinRoom(socket, client);
     handleGameLogic(socket, client);
   });
 });

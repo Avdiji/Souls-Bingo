@@ -1,16 +1,27 @@
 const postgresUtils = require("./postgresUtils");
 
-function joinRoom(socket, client) {
+function handleJoinRoom(socket, client) {
   socket.on("join_room", async (data) => {
+    const roomName = data.roomName;
+    const username = data.username;
 
-    if (await postgresUtils.roomExists(client, data.roomName)) {
-      console.log("This Room already exists");
-    } else {
-      await postgresUtils.createNewRoom(client, data.roomName);
+    try {
+      if (await postgresUtils.roomExists(client, roomName)) {
+        console.log("This Room already exists");
+      } else {
+        await postgresUtils.createNewRoom(client, roomName);
+        await postgresUtils.createUser(client, username);
+        await postgresUtils.addRoomUser(client, roomName, username);
+        client.release();
+      }
+
+      socket.join(roomName);
+      console.log("User " + username + " Joined Room: " + roomName);
+      
+    } catch (err) {
+      console.log("Something went wrong while trying to join the room");
+      console.log(err);
     }
-
-    // // console.log("User " + data.nickname + " Joined Room: " + data.roomID);
-    // socket.join(data.roomID);
   });
 }
 
@@ -26,9 +37,11 @@ function handleGameLogic(socket, client) {
       console.log(err);
     }
   });
+
+  client.release();
 }
 
 module.exports = {
-  handleConnection: joinRoom,
+  handleJoinRoom,
   handleGameLogic,
 };
