@@ -7,6 +7,10 @@ const { handleJoinRoom, handleGameLogic } = require("./socketHandler");
 const { Pool } = require("pg");
 
 require("dotenv").config();
+console.log(process.env.SB_ORIGIN);
+console.log(process.env.SERVER_PORT);
+
+
 const pool = new Pool({
   user: process.env.POSTGRES_USER,
   host: process.env.POSTGRES_HOST,
@@ -21,8 +25,8 @@ async function retryConnect() {
   try {
     client = await pool.connect();
     console.log("Successfully connected to soulsbingo database");
+    
   } catch (err) {
-    console.error("Failed to connect to soulsbingo database");
     await new Promise((resolve) => setTimeout(resolve, 2000));
     await retryConnect();
   }

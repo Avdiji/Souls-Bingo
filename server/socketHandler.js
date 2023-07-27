@@ -6,18 +6,25 @@ function handleJoinRoom(socket, client) {
     const username = data.username;
 
     try {
-      if (await postgresUtils.roomExists(client, roomName)) {
+      var roomID = await postgresUtils.getRoomIdByName(client, roomName);
+
+      const roomExists = roomID !== -1;
+      if (roomExists) {
         console.log("This Room already exists");
       } else {
         await postgresUtils.createNewRoom(client, roomName);
         await postgresUtils.createUser(client, username);
-        await postgresUtils.addRoomUser(client, roomName, username);
-        client.release();
+
+        const userID = await postgresUtils.getUserIdByUsername(client, username);
+        roomID = await postgresUtils.getRoomIdByName(client, roomName);
+
+        await postgresUtils.addRoomUser(client, roomID, userID);
+        await postgresUtils.addInitialChallengesToRoom(client, roomID);
+
+        socket.join(roomName);
+        console.log("User " + username + " Joined Room: " + roomName);
       }
 
-      socket.join(roomName);
-      console.log("User " + username + " Joined Room: " + roomName);
-      
     } catch (err) {
       console.log("Something went wrong while trying to join the room");
       console.log(err);
@@ -25,21 +32,6 @@ function handleJoinRoom(socket, client) {
   });
 }
 
-// game logic
-function handleGameLogic(socket, client) {
-  socket.on("send_message", async (data) => {
-    console.log("Sending Message to Room: " + data.roomID);
-
-    try {
-      console.log("Erfolg :)");
-    } catch (err) {
-      console.log("SCHEISEN :(");
-      console.log(err);
-    }
-  });
-
-  client.release();
-}
 
 module.exports = {
   handleJoinRoom,
