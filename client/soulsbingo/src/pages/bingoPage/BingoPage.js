@@ -26,8 +26,7 @@ export default function BingoPage(props) {
     <div className={classes.bingoPage}>
       <Header src={getHeaderSrc()}/>
       <GameButtons activeGameID={activeGameID} setActiveGameID={setActiveGameID}/>
-      <BingoBoard/>
-      <button>FITORES MINORES</button>
+      <BingoBoard challenges={props.challenges}/>
     </div>
   );
 }

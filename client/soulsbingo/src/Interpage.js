@@ -1,21 +1,31 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import LandingPage from "./pages/landingPage/LandingPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BingoPage from "./pages/bingoPage/BingoPage";
 
 
-export default function Interpage(props){
-    const [roomName, setRoomName] = useState('');
+export default function Interpage(props) {
+  const [roomName, setRoomName] = useState('');
+  const [roomPW, setRoomPW] = useState('');
+  const [challenges, setChallenges] = useState([]);
 
-    return (
-      <Layout>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage socket={props.socket} setRoomName={setRoomName}/>} />
-            <Route path="/bingo" element={<BingoPage socket={props.socket} roomName={roomName}/>} />
-          </Routes>
-        </Router>
-      </Layout>
-    );
+  useEffect(() => {
+    props.socket.on("receive_challenges", (backendChallenges) => {
+      console.log(backendChallenges);
+      setChallenges(backendChallenges);
+    });
+  }, [props.socket]);
+
+
+  return (
+    <Layout>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage socket={props.socket} setRoomName={setRoomName} setRoomPW={setRoomPW} />} />
+          <Route path="/bingo" element={<BingoPage socket={props.socket} roomName={roomName} roomPW={roomPW} challenges={challenges} />} />
+        </Routes>
+      </Router>
+    </Layout>
+  );
 }

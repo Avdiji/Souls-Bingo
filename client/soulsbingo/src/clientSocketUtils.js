@@ -5,12 +5,14 @@ export const initSocket = () => {
   return socket;
 };
 
-export const joinRoom = (socket, roomNameInput,setGlobalRoomName, username) => {
+export const joinRoom = (socket, roomNameInput,setGlobalRoomName, roomPwInput,setGlobalRoomPW, username) => {
     socket.emit("join_room", {
       roomName: roomNameInput,
+      roomPW: roomPwInput,
       username: username,
     });
     setGlobalRoomName(roomNameInput);
+    setGlobalRoomPW(roomPwInput);
 };
 
 

@@ -3,14 +3,10 @@ const app = require("express")();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { handleJoinRoom, handleGameLogic } = require("./socketHandler");
+const { handleJoinRoom, handleGameLogic } = require("./socketHandlers/socketHandler");
 const { Pool } = require("pg");
 
 require("dotenv").config();
-console.log(process.env.SB_ORIGIN);
-console.log(process.env.SERVER_PORT);
-
-
 const pool = new Pool({
   user: process.env.POSTGRES_USER,
   host: process.env.POSTGRES_HOST,
@@ -32,9 +28,7 @@ async function retryConnect() {
   }
 }
 
-// connect to database before starting server
 retryConnect().then(() => {
-  // create and run server
   app.use(cors());
   const server = http.createServer(app);
   const io = new Server(server, {
@@ -47,8 +41,11 @@ retryConnect().then(() => {
 
   io.on("connection", (socket) => {
     console.log("Client has connected to server. Client-ID: " + socket.id);
-
     handleJoinRoom(socket, client);
-    handleGameLogic(socket, client);
+
+    socket.on('disconnect', () =>{
+      console.log("Client has disconnected from server. Client-ID: " + socket.id);
+    })
   });
+
 });

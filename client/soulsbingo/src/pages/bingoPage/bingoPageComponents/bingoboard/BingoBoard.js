@@ -3,7 +3,9 @@ import classes from "./BingoBoard.module.css";
 import BingoCard from "./BingoCard";
 import ColorButtonContainer from "./colorButtons/ColorButtonContainer";
 
-export default function BingoBoard() {
+export default function BingoBoard(props) {
+  const challenges = props.challenges;
+
   const rows = 5;
   const columns = 5;
   
@@ -17,7 +19,7 @@ export default function BingoBoard() {
         {Array.from({ length: rows }).map((_, rowIndex) => (
           <div key={`row-${rowIndex}`}>
             {Array.from({ length: columns }).map((_, colIndex) => (
-              <BingoCard key={generateKey()} challenge={cardKey + ""}/>
+              <BingoCard key={generateKey()} challenge={challenges[cardKey]}/>
             ))}
           </div>
         ))}
