@@ -18,7 +18,6 @@ async function handleInitialJoin(socket, client, data) {
     socket.emit("receive_challenges", challenges);
     socket.join(roomName);
     socket.emit("receive_correctPwConfirmation", true);
-    console.log(username + " (" + userID + ") Joined Room: " + roomName);
 }
 
 // function handles the joining of an existing room
@@ -39,7 +38,6 @@ async function handleJoinPostRoomCreation(socket, client, data) {
         socket.emit("receive_challenges", challenges);
         socket.join(roomName);
         socket.emit("receive_correctPwConfirmation", true);
-        console.log(username + " (" + userID + ") Joined Room: " + roomName);
     }else{
         socket.emit("receive_correctPwConfirmation", false);
     }
@@ -49,10 +47,8 @@ async function handleJoinPostRoomCreation(socket, client, data) {
 async function createOrUpdateUser(client, userID, username) {
     if (await postgresUtils.userExists(client, userID)) {
         await postgresUtils.updateUsernameOfUserWithID(client, userID, username);
-        console.log("USER UPDATED");
     } else {
         await postgresUtils.createUser(client, userID, username);
-        console.log("USER CREATED");
     }
 }
 

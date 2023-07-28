@@ -1,14 +1,16 @@
+import { useState, useEffect } from "react";
 import classes from "./BingoPage.module.css";
-import {  useState } from "react";
 import Header from "../../components/header/Header";
 import GameButtons from "./bingoPageComponents/gameButtons/GameButtons";
 import BingoBoard from "./bingoPageComponents/bingoboard/BingoBoard";
+import LandingPage from "../landingPage/LandingPage";
 
 export default function BingoPage(props) {
   const [activeGameID, setActiveGameID] = useState(1);
 
-  const getHeaderSrc = () =>{
-    switch(activeGameID){
+
+  const getHeaderSrc = () => {
+    switch (activeGameID) {
       case 1: return "images\\ds1.jpg";
       case 2: return "images\\ds2.jpg";
       case 3: return "images\\ds3.jpg";
@@ -20,12 +22,18 @@ export default function BingoPage(props) {
     }
   };
 
-
   return (
-    <div className={classes.bingoPage}>
-      <Header src={getHeaderSrc()}/>
-      <GameButtons activeGameID={activeGameID} setActiveGameID={setActiveGameID}/>
-      <BingoBoard challenges={props.challenges} socket={props.socket} roomName={props.roomName}/>
-    </div>
+    props.roomName === "" ? <p>REMINDER TO ENTER A ROOM</p> : (<div className={classes.bingoPage}>
+      <Header src={getHeaderSrc()} />
+      <GameButtons
+        activeGameID={activeGameID}
+        setActiveGameID={setActiveGameID}
+      />
+      <BingoBoard
+        challenges={props.challenges}
+        socket={props.socket}
+        roomName={props.roomName}
+      />
+    </div>)
   );
 }

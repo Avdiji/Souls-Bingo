@@ -23,7 +23,7 @@ export default function LandingPage(props) {
         setPwColor("red");
       }
     });
-  }, [props.socket]);
+  }, [props.socket, nav]);
 
   const requestJoiningRoom = () => {
     if (roomNameInput !== "" && usernameInput !== "" && roomPwInput !== "") {

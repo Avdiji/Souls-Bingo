@@ -27,7 +27,7 @@ export default function BingoCard(props) {
 
   useEffect(() => {
     setGeneratedBackgroundStyle(generateBackground());
-  }, [backgroundColors]);
+  }, [backgroundColors,generateBackground]);
 
   const [generatedBackgroundStyle, setGeneratedBackgroundStyle] = useState(() => generateBackground());
   const cardStyle = {

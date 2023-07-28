@@ -3,7 +3,7 @@ const app = require("express")();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { handleJoinRoom, handleClientInteraction } = require("./socketHandlers/socketHandler");
+const { handleJoinRoom, handleClientInteraction, handleClientDisconnect } = require("./socketHandlers/socketHandler");
 const { Pool } = require("pg");
 
 require("dotenv").config();
@@ -44,10 +44,7 @@ retryConnect().then(() => {
     
     handleJoinRoom(socket, client);
     handleClientInteraction(socket, client);
-
-    socket.on('disconnect', () =>{
-      console.log("Client has disconnected from server. Client-ID: " + socket.id);
-    })
+    handleClientDisconnect(socket, client);
   });
 
 });

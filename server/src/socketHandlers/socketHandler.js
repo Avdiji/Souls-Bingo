@@ -4,7 +4,6 @@ const { handleInitialJoin, handleJoinPostRoomCreation } = require("./handleRoomC
 function handleJoinRoom(socket, client) {
   socket.on("join_room", async (data) => {
     const roomName = data.roomName;
-
     try {
       var roomID = await postgresUtils.getRoomIdByName(client, roomName);
       if (roomID !== -1) {
@@ -12,9 +11,7 @@ function handleJoinRoom(socket, client) {
       } else {
         handleInitialJoin(socket, client, data);
       }
-
     } catch (err) {
-      console.log("Something went wrong while trying to join the room");
       console.log(err);
     }
   });
@@ -28,11 +25,31 @@ function handleClientInteraction(socket, client) {
     const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
     socket.emit("receive_challenges", challenges);
     socket.to(data.roomName).emit("receive_challenges", challenges);
-    console.log(data.challenge + " has been marked with following colors: " + data.markingColor);
   });
+}
+
+function handleClientDisconnect(socket, client) {
+  socket.on('disconnect', async () => {
+    await postgresUtils.updateUserActive(client, socket.id, false);
+    const roomsWithDisconnectedUser = await postgresUtils.getRoomsWithUser(client, socket.id);
+
+    var saveToRemoveInactiveUsers = true;
+    for (const room of roomsWithDisconnectedUser) {
+      if (!await postgresUtils.isRoomActive(client, room.roomid)) {
+        await postgresUtils.deleteChallengesFromRoom(client, room.roomid);
+        await postgresUtils.deleteRoomFromRoomUsers(client, room.roomid);
+        await postgresUtils.deleteRoomWithID(client, room.roomid);
+      } else {
+        saveToRemoveInactiveUsers = false;
+      }
+    }
+    if (saveToRemoveInactiveUsers) { await postgresUtils.deleteInactiveUsers(client); }
+    console.log("Client has disconnected from server. Client-ID: " + socket.id);
+  })
 }
 
 module.exports = {
   handleJoinRoom,
-  handleClientInteraction
+  handleClientInteraction,
+  handleClientDisconnect
 };
