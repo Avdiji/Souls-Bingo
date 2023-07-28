@@ -8,7 +8,7 @@ async function handleInitialJoin(socket, client, data) {
     const roomPW = data.roomPW;
 
     await postgresUtils.createNewRoom(client, roomName, roomPW);
-    roomID = await postgresUtils.getRoomIdByName(client, roomName);
+    var roomID = await postgresUtils.getRoomIdByName(client, roomName);
 
     await createOrUpdateUser(client, userID, username);
     await postgresUtils.addRoomUser(client, roomID, userID);
@@ -29,7 +29,9 @@ async function handleJoinPostRoomCreation(socket, client, data) {
     const username = data.username;
     const roomPW = data.roomPW;
 
+    var roomID = await postgresUtils.getRoomIdByName(client, roomName);
     const correctRoomPW = await postgresUtils.getRoomPwByID(client, roomID);
+    
     if (roomPW === correctRoomPW) {
         await createOrUpdateUser(client, userID, username);
         await postgresUtils.addRoomUser(client, roomID, userID);
@@ -37,8 +39,10 @@ async function handleJoinPostRoomCreation(socket, client, data) {
         const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
         socket.emit("receive_challenges", challenges);
         socket.join(roomName);
-
+        socket.emit("receive_correctPwConfirmation", true);
         console.log(username + " (" + userID + ") Joined Room: " + roomName);
+    }else{
+        socket.emit("receive_correctPwConfirmation", false);
     }
 }
 

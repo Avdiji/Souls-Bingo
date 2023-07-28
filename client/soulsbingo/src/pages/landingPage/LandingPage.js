@@ -1,5 +1,5 @@
 import classes from "./LandingPage.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StartButton from "./StartButton";
 import LandingPageInput from "./LandingPageInput";
 import { joinRoom } from "../../clientSocketUtils";
@@ -10,18 +10,30 @@ export default function LandingPage(props) {
   const [roomNameInput, setRoomNameInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [roomPwInput, setRoomPwInput] = useState("");
+  const [pwColor, setPwColor] = useState("white")
+
   const nav = useNavigate();
 
-  const onStartClick = () => {
+  useEffect(() => {
+    props.socket.on("receive_correctPwConfirmation", (isPwCorrect) => {
+      if (isPwCorrect) {
+        nav("/bingo");
+        setPwColor("white");
+      }else{
+        setPwColor("red");
+      }
+    });
+  }, [props.socket]);
+
+  const requestJoiningRoom = () => {
     if (roomNameInput !== "" && usernameInput !== "" && roomPwInput !== "") {
-      joinRoom(props.socket, roomNameInput, props.setRoomName,roomPwInput, props.setRoomPW, usernameInput);
-      nav("/bingo");
+      joinRoom(props.socket, roomNameInput, props.setRoomName, roomPwInput, props.setRoomPW, usernameInput);
     }
   };
 
   return (
     <div className={classes.landingPage}>
-      <Header src="images\ds1.jpg"/>
+      <Header src="images\ds1.jpg" />
       <LandingPageInput
         placeholder="Nickname"
         onChange={(e) => setUsernameInput(e.target.value)}
@@ -32,12 +44,13 @@ export default function LandingPage(props) {
         onChange={(e) => setRoomNameInput(e.target.value)}
       />
 
-<LandingPageInput
+      <LandingPageInput
         placeholder="Room-Password"
+        color={pwColor}
         onChange={(e) => setRoomPwInput(e.target.value)}
       />
 
-      <StartButton onClick={onStartClick} />
+      <StartButton onClick={requestJoiningRoom} />
     </div>
   );
 }

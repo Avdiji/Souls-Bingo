@@ -12,7 +12,6 @@ export default function Interpage(props) {
 
   useEffect(() => {
     props.socket.on("receive_challenges", (backendChallenges) => {
-      console.log(backendChallenges);
       setChallenges(backendChallenges);
     });
   }, [props.socket]);

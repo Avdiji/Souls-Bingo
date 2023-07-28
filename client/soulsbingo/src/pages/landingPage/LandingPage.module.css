@@ -1,9 +1,9 @@
 .landingPage{
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .landingPage img{
     width: 40vw;
 }
-
-
