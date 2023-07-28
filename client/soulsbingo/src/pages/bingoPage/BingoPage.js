@@ -6,7 +6,6 @@ import BingoBoard from "./bingoPageComponents/bingoboard/BingoBoard";
 
 export default function BingoPage(props) {
   const [activeGameID, setActiveGameID] = useState(1);
-  const roomName = props.roomName;
 
   const getHeaderSrc = () =>{
     switch(activeGameID){
@@ -26,20 +25,7 @@ export default function BingoPage(props) {
     <div className={classes.bingoPage}>
       <Header src={getHeaderSrc()}/>
       <GameButtons activeGameID={activeGameID} setActiveGameID={setActiveGameID}/>
-      <BingoBoard challenges={props.challenges}/>
+      <BingoBoard challenges={props.challenges} socket={props.socket} roomName={props.roomName}/>
     </div>
   );
 }
-
-
-
-// useEffect(() => {
-//   props.socket.on("receive_message", (data) => {
-//     alert(data.message);
-//   });
-// }, [props.socket]);
-
-
-// <button onClick={() => sendMessage(props.socket, roomID)}>
-// Send Message to Room
-// </button>

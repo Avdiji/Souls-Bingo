@@ -6,14 +6,23 @@
   width: 8rem;
   height: 8rem;
 
+  background: linear-gradient(red 0%, red 100%); 
+
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: 0.3s ease-in-out;
+}
+
+.bingoCard:hover{
+  cursor: pointer;
 }
 
 .bingoCard p {
   margin: 0.5rem;
 }
+
+
 
 @media only screen and (max-width: 780px) {
   .bingoCard {

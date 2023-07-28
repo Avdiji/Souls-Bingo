@@ -12,13 +12,12 @@ async function handleInitialJoin(socket, client, data) {
 
     await createOrUpdateUser(client, userID, username);
     await postgresUtils.addRoomUser(client, roomID, userID);
+    await postgresUtils.addInitialChallengesToRoom(client, roomID);
 
-    const challenges = await postgresUtils.getRandomChallengesWithGameID(client, 1);
-    await postgresUtils.addInitialChallengesToRoom(client, roomID, challenges);
-
+    const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
     socket.emit("receive_challenges", challenges);
     socket.join(roomName);
-
+    socket.emit("receive_correctPwConfirmation", true);
     console.log(username + " (" + userID + ") Joined Room: " + roomName);
 }
 

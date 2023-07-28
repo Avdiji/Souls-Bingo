@@ -8,7 +8,7 @@ import BingoPage from "./pages/bingoPage/BingoPage";
 export default function Interpage(props) {
   const [roomName, setRoomName] = useState('');
   const [roomPW, setRoomPW] = useState('');
-  const [challenges, setChallenges] = useState([]);
+  const [challenges, setChallenges] = useState([])
 
   useEffect(() => {
     props.socket.on("receive_challenges", (backendChallenges) => {
@@ -22,7 +22,7 @@ export default function Interpage(props) {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage socket={props.socket} setRoomName={setRoomName} setRoomPW={setRoomPW} />} />
-          <Route path="/bingo" element={<BingoPage socket={props.socket} roomName={roomName} roomPW={roomPW} challenges={challenges} />} />
+          <Route path="/bingo" element={<BingoPage socket={props.socket} challenges={challenges} roomName={roomName} />} />
         </Routes>
       </Router>
     </Layout>

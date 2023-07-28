@@ -23,13 +23,15 @@ async function addRoomUser(client, roomID, userID) {
 }
 
 /** function adds 25 initialChallenges To the Room with the given roomID (color null) **/
-async function addInitialChallengesToRoom(client, roomID, challenges){
+async function addInitialChallengesToRoom(client, roomID){
   const gameID = await getGameIdOfRoomWithRoomId(client, roomID);
+  const challenges = await getRandomChallengesWithGameID(client, gameID);
+
   var query = "";
 
   for(i=0; i < 25; i++){
-    query ="INSERT INTO ROOM_CHALLENGES (roomID, challenge, color) VALUES ($1,$2,$3) RETURNING *";
-    const result = await client.query(query, [roomID, challenges[i], null]);
+    query ="INSERT INTO ROOM_CHALLENGES (roomID, challenge) VALUES ($1,$2) RETURNING *";
+    const result = await client.query(query, [roomID, challenges[i]]);
   }
 }
 //////////////////////////////////////////////////////////////////////////
@@ -41,7 +43,12 @@ async function addInitialChallengesToRoom(client, roomID, challenges){
 //////////////////////////////////////////////////////////////////////////
 async function updateUsernameOfUserWithID(client, userID, username){
   const query = "UPDATE USERS SET username = $1 WHERE id=$2";
-  const result = await client.query(query, [username, userID]);
+  await client.query(query, [username, userID]);
+}
+
+async function updateColorOfChallengeInRoom(client, roomID, challenge, updatedColor){
+  const query = "UPDATE ROOM_CHALLENGES SET color=$1 WHERE roomID=$2 AND challenge=$3";
+  await client.query(query, [updatedColor, roomID, challenge]);
 }
 //////////////////////////////////////////////////////////////////////////
 // UPDATE
@@ -87,10 +94,9 @@ async function getGameIdOfRoomWithRoomId(client, roomID){
 
 /** returns an array of challenges that exist in a room */
 async function getExistingChallengesOfRoomWithId(client, roomID){
-  const query = "SELECT challenge FROM room_challenges WHERE roomID=$1";
+  const query = "SELECT challenge, color FROM room_challenges WHERE roomID=$1 ORDER BY id ASC";
   const result = await client.query(query, [roomID]);
-  const challenges = result.rows.map((challengeObj) => challengeObj.challenge);
-  return challenges;
+  return result.rows;
 }
 
 /** Function returns 25 random Challenges of a game with the corresponding gameID */
@@ -120,9 +126,9 @@ module.exports = {
   createNewRoom,
   createUser,
   addRoomUser,
-  getRandomChallengesWithGameID,
   getExistingChallengesOfRoomWithId,
   addInitialChallengesToRoom,
   userExists,
-  updateUsernameOfUserWithID
+  updateUsernameOfUserWithID,
+  updateColorOfChallengeInRoom
 };

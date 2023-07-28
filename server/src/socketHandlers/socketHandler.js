@@ -20,6 +20,19 @@ function handleJoinRoom(socket, client) {
   });
 }
 
+function handleClientInteraction(socket, client) {
+  socket.on("mark_card", async (data) => {
+    const roomID = await postgresUtils.getRoomIdByName(client, data.roomName);
+
+    await postgresUtils.updateColorOfChallengeInRoom(client, roomID, data.challenge, data.markingColor);
+    const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
+    socket.emit("receive_challenges", challenges);
+    socket.to(data.roomName).emit("receive_challenges", challenges);
+    console.log(data.challenge + " has been marked with following colors: " + data.markingColor);
+  });
+}
+
 module.exports = {
   handleJoinRoom,
+  handleClientInteraction
 };

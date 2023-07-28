@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS ROOM_CHALLENGES(
     id SERIAL PRIMARY KEY,
     roomID INT REFERENCES ROOMS(id),
     challenge VARCHAR(255) NOT NULL,
-    color VARCHAR(255)
+    color VARCHAR(255) default '_'
 );
 
 /** DARK SOULS I (GAME-ID 1) **/
