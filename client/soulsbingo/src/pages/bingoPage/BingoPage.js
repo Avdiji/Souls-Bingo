@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import classes from "./BingoPage.module.css";
 import Header from "../../components/header/Header";
 import GameButtons from "./bingoPageComponents/gameButtons/GameButtons";
 import BingoBoard from "./bingoPageComponents/bingoboard/BingoBoard";
-import LandingPage from "../landingPage/LandingPage";
 
 export default function BingoPage(props) {
   const [activeGameID, setActiveGameID] = useState(1);
-
 
   const getHeaderSrc = () => {
     switch (activeGameID) {
