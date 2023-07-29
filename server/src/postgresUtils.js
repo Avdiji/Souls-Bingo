@@ -99,6 +99,12 @@ async function updateGameIdOfRoom(client, roomID, gameID){
 // GETTER
 //////////////////////////////////////////////////////////////////////////
 
+async function getUserNameOfUserWithID(client, userID){
+  const query = "SELECT username FROM users WHERE id=$1";
+  const result = await client.query(query, [userID]);
+  return result.rows[0].username;
+}
+
 async function getGameIdOfRoom(client, roomID){
   const query = "SELECT gameID FROM rooms WHERE id=$1";
   const result = await client.query(query, [roomID]);
@@ -200,6 +206,7 @@ module.exports = {
   isRoomActive,
   getGameIdOfRoom,
   updateGameIdOfRoom,
+  getUserNameOfUserWithID,
 
   deleteChallengesFromRoom,
   deleteRoomFromRoomUsers,

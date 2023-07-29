@@ -1,0 +1,23 @@
+.bingolog {
+  margin-bottom: 5rem;
+}
+
+.bingolog textarea {
+  color: #a3e583;
+  background-color: rgb(37, 37, 37);
+  width: 40rem;
+  height: 5rem;
+  font-size: medium;
+}
+
+@media only screen and (max-width: 780px) {
+  .bingolog textarea {
+    width: 85vw;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .bingolog textarea {
+    width: 90vw;
+  }
+}
