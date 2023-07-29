@@ -19,7 +19,7 @@ async function handleInitialJoin(socket, client, data) {
     socket.join(roomName);
     socket.emit("receive_correctPwConfirmation", true);
 
-    const message = "- Player " + username + " joined " + roomName;
+    const message = "- Player " + username + " joined " + roomName + " (" + roomPW + ")";
     console.log(message);
     socket.emit("receive_log", message);
     socket.to(roomName).emit("receive_log", message)
@@ -46,7 +46,7 @@ async function handleJoinPostRoomCreation(socket, client, data) {
         socket.join(roomName);
         socket.emit("receive_correctPwConfirmation", true);
 
-        const message = "- Player " + username + " joined " + roomName;
+        const message = "- Player " + username + " joined " + roomName + " (" + roomPW + ")";
         console.log(message);
         socket.emit("receive_log", message);
         socket.to(roomName).emit("receive_log", message)
