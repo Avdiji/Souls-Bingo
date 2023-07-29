@@ -4,6 +4,32 @@
     margin-top: 3vh;
 }
 
+.footer{
+    display: flex;
+    margin-top: 15rem;
+    margin-bottom: 1rem;
+    height: 5rem;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(37, 37, 37, 0.9);
+    color: #a3e583;
+
+}
+
+.footer a{
+    margin-right: 2rem;
+    margin-left: 2rem;
+    color: #a3e583;
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+}
+
+.footer a:hover{
+    color: #79aa61;
+    transform: scale(1.2);
+}
 
 @media only screen and (max-width: 780px) {}
 

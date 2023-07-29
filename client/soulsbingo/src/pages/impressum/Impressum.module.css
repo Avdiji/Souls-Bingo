@@ -1,0 +1,14 @@
+.impressum{
+    margin-top: 20vh;
+    margin-bottom: 30rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+    color: white;
+
+    width: 60vw;
+    height: 30vh;
+    background-color: rgb(37, 37, 37, 0.9);
+}

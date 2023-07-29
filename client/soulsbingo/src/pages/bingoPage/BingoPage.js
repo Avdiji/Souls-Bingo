@@ -3,6 +3,7 @@ import Header from "../../components/header/Header";
 import GameButtons from "./bingoPageComponents/gameButtons/GameButtons";
 import BingoBoard from "./bingoPageComponents/bingoboard/BingoBoard";
 import Bingolog from "./bingoPageComponents/bingolog/Bingolog";
+import BingoRedirect from "./bingoPageComponents/bingoRedirect/BingoRedirect";
 
 export default function BingoPage(props) {
   const { activeGameID } = props;
@@ -29,7 +30,7 @@ export default function BingoPage(props) {
   };
 
   return props.roomName === "" ? (
-    <p>REMINDER TO ENTER A ROOM</p>
+    <BingoRedirect/>
   ) : (
     <div className={classes.bingoPage}>
       <Header src={getHeaderSrc()} />

@@ -1,6 +1,6 @@
 import classes from "./LandingPage.module.css";
 import { useEffect, useState } from "react";
-import StartButton from "./StartButton";
+import StartButton from "../../components/startButton/StartButton";
 import LandingPageInput from "./LandingPageInput";
 import { joinRoom } from "../../clientSocketUtils";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +50,7 @@ export default function LandingPage(props) {
         onChange={(e) => setRoomPwInput(e.target.value)}
       />
 
-      <StartButton onClick={requestJoiningRoom} />
+      <StartButton onClick={requestJoiningRoom} hoverText="Have Fun!" defaultText="Join Room"/>
     </div>
   );
 }

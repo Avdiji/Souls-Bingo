@@ -8,7 +8,7 @@ export default function StartButton(props) {
         onClick={props.onClick}
       >
         <span></span>
-        <p data-text="Good Luck!" data-title="Join Room"></p>
+        <p data-text={props.hoverText} data-title={props.defaultText}></p>
       </button>
     </div>
   );

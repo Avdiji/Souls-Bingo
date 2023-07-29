@@ -1,0 +1,38 @@
+.bingoRedirect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20vh;
+  width: 60vw;
+  height: 40vh;
+
+  background-color: rgb(37, 37, 37, 0.97);
+  box-shadow: 10px 10px 15px 0px rgb(22, 22, 22);
+}
+
+.bingoRedirect h2 {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  color: white;
+}
+
+.bingoRedirect button {
+  width: 17rem;
+}
+
+@media only screen and (max-width: 780px) {
+  .bingoRedirect {
+    width: 80vw;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .bingoRedirect {
+    width: 90vw;
+  }
+
+  .bingoRedirect button {
+    font-size: small;
+  }
+}
