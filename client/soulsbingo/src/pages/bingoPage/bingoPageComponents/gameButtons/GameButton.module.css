@@ -12,6 +12,7 @@
 
 /* Styles for the active button when not hovered */
 .gameButton button.active {
+  cursor: pointer;
   color: #252525;
   box-shadow: 8rem 0px 0px 0px #a3e583 inset;
 }

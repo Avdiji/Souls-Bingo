@@ -6,14 +6,14 @@ export const initSocket = () => {
 };
 
 /** Function requests a connection to a room */
-export const joinRoom = (socket, roomNameInput,setGlobalRoomName, roomPwInput,setGlobalRoomPW, username) => {
-    socket.emit("join_room", {
-      roomName: roomNameInput,
-      roomPW: roomPwInput,
-      username: username
-    });
-    setGlobalRoomName(roomNameInput);
-    setGlobalRoomPW(roomPwInput);
+export const joinRoom = (socket, roomNameInput, setGlobalRoomName, roomPwInput, setGlobalRoomPW, username) => {
+  socket.emit("join_room", {
+    roomName: roomNameInput,
+    roomPW: roomPwInput,
+    username: username
+  });
+  setGlobalRoomName(roomNameInput);
+  setGlobalRoomPW(roomPwInput);
 };
 
 /** Function marks a bingoCard with a specific color */
@@ -22,5 +22,12 @@ export const markCard = (socket, roomName, cardChallenge, markingColor) => {
     roomName: roomName,
     challenge: cardChallenge,
     markingColor: markingColor
+  });
+}
+
+export const changeGameID = (socket, roomName, gameID) => {
+  socket.emit("change_gameid", {
+    roomName: roomName,
+    gameID: gameID
   });
 }

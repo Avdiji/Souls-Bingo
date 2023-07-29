@@ -20,11 +20,28 @@ function handleJoinRoom(socket, client) {
 function handleClientInteraction(socket, client) {
   socket.on("mark_card", async (data) => {
     const roomID = await postgresUtils.getRoomIdByName(client, data.roomName);
-
     await postgresUtils.updateColorOfChallengeInRoom(client, roomID, data.challenge, data.markingColor);
     const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
     socket.emit("receive_challenges", challenges);
     socket.to(data.roomName).emit("receive_challenges", challenges);
+  });
+
+  socket.on("change_gameid", async (data) => {
+    const roomID = await postgresUtils.getRoomIdByName(client, data.roomName);
+
+    await postgresUtils.updateGameIdOfRoom(client, roomID, data.gameID);
+    await postgresUtils.deleteChallengesFromRoom(client, roomID);
+    
+    await postgresUtils.addInitialChallengesToRoom(client, roomID);
+    const dbGameID = await postgresUtils.getGameIdOfRoom(client, roomID);
+
+    const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
+
+    socket.emit("receive_challenges", challenges);
+    socket.emit("receive_gameid", dbGameID);
+
+    socket.to(data.roomName).emit("receive_challenges", challenges);
+    socket.to(data.roomName).emit("receive_gameid", dbGameID);
   });
 }
 

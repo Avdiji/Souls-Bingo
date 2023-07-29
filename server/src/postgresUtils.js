@@ -61,7 +61,6 @@ async function deleteInactiveUsers(client){
   const query = "DELETE FROM USERS WHERE active=$1";
   await client.query(query, [false]);
 }
-
 //////////////////////////////////////////////////////////////////////////
 // DELETION
 //////////////////////////////////////////////////////////////////////////
@@ -86,6 +85,11 @@ async function updateColorOfChallengeInRoom(client, roomID, challenge, updatedCo
   await client.query(query, [updatedColor, roomID, challenge]);
 }
 
+async function updateGameIdOfRoom(client, roomID, gameID){
+  const query = "UPDATE ROOMS SET gameID=$1 WHERE id=$2";
+  await client.query(query, [gameID, roomID]);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // UPDATE
 //////////////////////////////////////////////////////////////////////////
@@ -94,6 +98,12 @@ async function updateColorOfChallengeInRoom(client, roomID, challenge, updatedCo
 //////////////////////////////////////////////////////////////////////////
 // GETTER
 //////////////////////////////////////////////////////////////////////////
+
+async function getGameIdOfRoom(client, roomID){
+  const query = "SELECT gameID FROM rooms WHERE id=$1";
+  const result = await client.query(query, [roomID]);
+  return result.rows[0].gameid;
+}
 
 async function isRoomActive(client, roomID) {
   const query = `
@@ -188,6 +198,8 @@ module.exports = {
   updateUserActive,
   getRoomsWithUser,
   isRoomActive,
+  getGameIdOfRoom,
+  updateGameIdOfRoom,
 
   deleteChallengesFromRoom,
   deleteRoomFromRoomUsers,

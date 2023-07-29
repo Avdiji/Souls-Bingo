@@ -1,11 +1,12 @@
 import classes from "./GameButtons.module.css";
 import GameButton from "./GameButton";
+import { changeGameID } from "../../../../clientSocketUtils";
 
 export default function GameButtons(props) {
-  const { activeGameID, setActiveGameID } = props;
+  const { activeGameID, socket, roomName } = props;
 
   const onButtonClick = (gameID) => {
-    setActiveGameID(gameID);
+    changeGameID(socket, roomName,gameID);
   };
 
   return (

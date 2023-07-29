@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS ROOMS(
     id SERIAL PRIMARY KEY,
     roomName VARCHAR(255) NOT NULL,
     roomPW VARCHAR(255) NOT NULL,
-    gameID INT DEFAULT 1,
-    active BOOLEAN NOT NULL DEFAULT true
+    gameID INT DEFAULT 1
 );
 
 /** Table that contains all Users **/
@@ -206,7 +205,6 @@ INSERT INTO ALL_CHALLENGES (challenge, gameID) VALUES ('Obtain the Foe''s Ring',
 INSERT INTO ALL_CHALLENGES (challenge, gameID) VALUES ('Complete a level using only bows or crossbows', 4);
 INSERT INTO ALL_CHALLENGES (challenge, gameID) VALUES ('Acquire a unique catalyst or talisman', 4);
 INSERT INTO ALL_CHALLENGES (challenge, gameID) VALUES ('Defeat a boss using only magic or miracles', 4);
-
 
 /** BLOODBORNE (GAME-ID 5) **/
 INSERT INTO ALL_CHALLENGES (challenge, gameID) VALUES ('Defeat Father Gascoigne', 5);

@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classes from "./BingoPage.module.css";
 import Header from "../../components/header/Header";
 import GameButtons from "./bingoPageComponents/gameButtons/GameButtons";
 import BingoBoard from "./bingoPageComponents/bingoboard/BingoBoard";
 
 export default function BingoPage(props) {
-  const [activeGameID, setActiveGameID] = useState(1);
+  const {activeGameID}= props;
 
   const getHeaderSrc = () => {
     switch (activeGameID) {
@@ -24,8 +24,9 @@ export default function BingoPage(props) {
     props.roomName === "" ? <p>REMINDER TO ENTER A ROOM</p> : (<div className={classes.bingoPage}>
       <Header src={getHeaderSrc()} />
       <GameButtons
+        roomName={props.roomName}
         activeGameID={activeGameID}
-        setActiveGameID={setActiveGameID}
+        socket = {props.socket}
       />
       <BingoBoard
         challenges={props.challenges}

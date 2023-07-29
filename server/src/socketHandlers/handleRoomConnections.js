@@ -14,8 +14,8 @@ async function handleInitialJoin(socket, client, data) {
     await postgresUtils.addRoomUser(client, roomID, userID);
     await postgresUtils.addInitialChallengesToRoom(client, roomID);
 
-    const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
-    socket.emit("receive_challenges", challenges);
+    socket.emit("receive_gameid", await postgresUtils.getGameIdOfRoom(client, roomID));
+    socket.emit("receive_challenges", await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID));
     socket.join(roomName);
     socket.emit("receive_correctPwConfirmation", true);
 }
@@ -29,16 +29,18 @@ async function handleJoinPostRoomCreation(socket, client, data) {
 
     var roomID = await postgresUtils.getRoomIdByName(client, roomName);
     const correctRoomPW = await postgresUtils.getRoomPwByID(client, roomID);
-    
+
     if (roomPW === correctRoomPW) {
         await createOrUpdateUser(client, userID, username);
         await postgresUtils.addRoomUser(client, roomID, userID);
+        const dbGameID = await postgresUtils.getGameIdOfRoom(client, roomID);
 
-        const challenges = await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID);
-        socket.emit("receive_challenges", challenges);
+        socket.emit("receive_gameid", dbGameID);
+        console.log("Joined Room with GameID: " + dbGameID);
+        socket.emit("receive_challenges", await postgresUtils.getExistingChallengesOfRoomWithId(client, roomID));
         socket.join(roomName);
         socket.emit("receive_correctPwConfirmation", true);
-    }else{
+    } else {
         socket.emit("receive_correctPwConfirmation", false);
     }
 }
