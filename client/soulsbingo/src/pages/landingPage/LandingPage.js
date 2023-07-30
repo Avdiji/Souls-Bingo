@@ -40,7 +40,7 @@ export default function LandingPage(props) {
       />
 
       <LandingPageInput
-        placeholder="Room-ID"
+        placeholder="Roomname"
         onChange={(e) => setRoomNameInput(e.target.value)}
       />
 
