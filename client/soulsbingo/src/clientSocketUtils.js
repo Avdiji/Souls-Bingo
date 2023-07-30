@@ -6,14 +6,13 @@ export const initSocket = () => {
 };
 
 /** Function requests a connection to a room */
-export const joinRoom = (socket, roomNameInput, setGlobalRoomName, roomPwInput, setGlobalRoomPW, username) => {
+export const joinRoom = (socket, roomNameInput, setGlobalRoomName, roomPwInput, username) => {
   socket.emit("join_room", {
     roomName: roomNameInput,
     roomPW: roomPwInput,
     username: username
   });
   setGlobalRoomName(roomNameInput);
-  setGlobalRoomPW(roomPwInput);
 };
 
 /** Function marks a bingoCard with a specific color */

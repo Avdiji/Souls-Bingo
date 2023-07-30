@@ -27,7 +27,7 @@ export default function LandingPage(props) {
 
   const requestJoiningRoom = () => {
     if (roomNameInput !== "" && usernameInput !== "" && roomPwInput !== "") {
-      joinRoom(props.socket, roomNameInput, props.setRoomName, roomPwInput, props.setRoomPW, usernameInput);
+      joinRoom(props.socket, roomNameInput, props.setRoomName, roomPwInput, usernameInput);
     }
   };
 

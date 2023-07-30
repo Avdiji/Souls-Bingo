@@ -7,7 +7,6 @@ import Impressum from "./pages/impressum/Impressum";
 
 export default function Interpage(props) {
   const [roomName, setRoomName] = useState("");
-  const [roomPW, setRoomPW] = useState("");
   const [activeGameID, setActiveGameID] = useState(1);
   const [bingolog, setBingolog] = useState("");
   const [challenges, setChallenges] = useState([]);
@@ -32,11 +31,7 @@ export default function Interpage(props) {
           <Route
             path="/"
             element={
-              <LandingPage
-                socket={props.socket}
-                setRoomName={setRoomName}
-                setRoomPW={setRoomPW}
-              />
+              <LandingPage socket={props.socket} setRoomName={setRoomName} />
             }
           />
           <Route
