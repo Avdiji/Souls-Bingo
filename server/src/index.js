@@ -1,7 +1,8 @@
-const express = require("express");
+// setup
+const app = require("express")();
 const http = require("http");
 const { Server } = require("socket.io");
-const cors = require("cors"); // Add this line to import the cors package
+const cors = require("cors");
 const { handleJoinRoom, handleClientInteraction, handleClientDisconnect } = require("./socketHandlers/socketHandler");
 const { Pool } = require("pg");
 
@@ -20,6 +21,7 @@ async function retryConnect() {
   try {
     client = await pool.connect();
     console.log("Successfully connected to soulsbingo database");
+    
   } catch (err) {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     await retryConnect();
@@ -27,10 +29,7 @@ async function retryConnect() {
 }
 
 retryConnect().then(() => {
-  const app = express(); // Move the 'app' variable here
-
-  app.use(cors()); // Enable CORS for all routes
-
+  app.use(cors());
   const server = http.createServer(app);
   const io = new Server(server, {
     cors: { origin: process.env.SB_ORIGIN, methods: ["GET", "POST"] },
@@ -42,9 +41,10 @@ retryConnect().then(() => {
 
   io.on("connection", (socket) => {
     console.log("Client has connected to server. Client-ID: " + socket.id);
-
+    
     handleJoinRoom(socket, client);
     handleClientInteraction(socket, client);
     handleClientDisconnect(socket, client);
   });
+
 });
