@@ -35,7 +35,10 @@ retryConnect().then(() => {
   app.use(cors());
   const server = http.createServer(app);
   const io = new Server(server, {
-    cors: { origin: [process.env.SB_ORIGIN, "http://localhost"], methods: ["GET", "POST"] },
+    cors: {
+      origin: [process.env.SB_ORIGIN, process.env.SB_ORIGIN2],
+      methods: ["GET", "POST"],
+    },
   });
 
   server.listen(process.env.SERVER_PORT, () => {
