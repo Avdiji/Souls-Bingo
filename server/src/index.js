@@ -3,7 +3,11 @@ const app = require("express")();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { handleJoinRoom, handleClientInteraction, handleClientDisconnect } = require("./socketHandlers/socketHandler");
+const {
+  handleJoinRoom,
+  handleClientInteraction,
+  handleClientDisconnect,
+} = require("./socketHandlers/socketHandler");
 const { Pool } = require("pg");
 
 require("dotenv").config();
@@ -21,7 +25,6 @@ async function retryConnect() {
   try {
     client = await pool.connect();
     console.log("Successfully connected to soulsbingo database");
-    
   } catch (err) {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     await retryConnect();
@@ -32,7 +35,7 @@ retryConnect().then(() => {
   app.use(cors());
   const server = http.createServer(app);
   const io = new Server(server, {
-    cors: { origin: process.env.SB_ORIGIN, methods: ["GET", "POST"] },
+    cors: { origin: [process.env.SB_ORIGIN, "http://localhost"], methods: ["GET", "POST"] },
   });
 
   server.listen(process.env.SERVER_PORT, () => {
@@ -41,10 +44,9 @@ retryConnect().then(() => {
 
   io.on("connection", (socket) => {
     console.log("Client has connected to server. Client-ID: " + socket.id);
-    
+
     handleJoinRoom(socket, client);
     handleClientInteraction(socket, client);
     handleClientDisconnect(socket, client);
   });
-
 });
