@@ -1,7 +1,8 @@
 import io from "socket.io-client";
 
 export const initSocket = () => {
-  const socket = io.connect("78.47.93.195:3001");
+  // const socket = io.connect("78.47.93.195:3001");
+  const socket = io.connect("192.168.2.78:3001");
   return socket;
 };
 
